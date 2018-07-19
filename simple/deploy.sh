@@ -3,14 +3,14 @@
 STACK_NAME=$1
 
 TEMPLATE_BODY="file://couchbase-ee.template"
-REGION=`aws configure get region`
+REGION=$2
 
-ServerInstanceCount="4"
+ServerInstanceCount=$3
 ServerDiskSize="100"
-SyncGatewayInstanceCount="2"
+SyncGatewayInstanceCount="0"
 InstanceType="m4.xlarge"
-Username="couchbase"
-Password="foo123!"
+Username="Administrator"
+Password="password"
 KeyName="couchbase-${REGION}"
 License="BYOL"
 
