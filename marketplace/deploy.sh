@@ -7,9 +7,9 @@ REGION=$2
 
 ServerInstanceCount=$3
 ServerVersion=$4
-echo $5
 ServerUrl="$5"
-echo ${ServerUrl}
+ServerUsername=$6
+ServerPassword=$7
 ServerDiskSize="100"
 SyncGatewayInstanceCount="0"
 InstanceType="m4.xlarge"
@@ -17,6 +17,13 @@ Username="Administrator"
 Password="password"
 KeyName="couchbase-qe"
 SSHCIDR="0.0.0.0/0"
+
+if [ "$ServerUsername" != "" ]
+then
+ServerUrl="$ServerUrl --user=$ServerUsername --password=$ServerPassword"
+fi
+
+echo $ServerUrl
 
 aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
