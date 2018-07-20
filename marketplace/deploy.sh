@@ -7,7 +7,7 @@ REGION=$2
 
 ServerInstanceCount=$3
 ServerVersion=$4
-eval ServerUrl="$5"
+ServerUrl="$5"
 ServerDiskSize="100"
 SyncGatewayInstanceCount="0"
 InstanceType="m4.xlarge"
@@ -24,7 +24,7 @@ aws cloudformation create-stack \
 --parameters \
 ParameterKey=ServerInstanceCount,ParameterValue=${ServerInstanceCount} \
 ParameterKey=ServerVersion,ParameterValue=${ServerVersion} \
-ParameterKey=ServerUrl,ParameterValue=${ServerUrl} \
+ParameterKey=ServerUrl,ParameterValue="${ServerUrl}" \
 ParameterKey=ServerDiskSize,ParameterValue=${ServerDiskSize} \
 ParameterKey=SyncGatewayInstanceCount,ParameterValue=${SyncGatewayInstanceCount} \
 ParameterKey=InstanceType,ParameterValue=${InstanceType} \
