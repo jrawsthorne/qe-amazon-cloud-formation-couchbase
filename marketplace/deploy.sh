@@ -25,7 +25,7 @@ fi
 
 echo $ServerUrl
 
-cmd="aws cloudformation create-stack \
+aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
 --template-body ${TEMPLATE_BODY} \
 --stack-name ${STACK_NAME} \
@@ -33,13 +33,11 @@ cmd="aws cloudformation create-stack \
 --parameters \
 ParameterKey=ServerInstanceCount,ParameterValue=${ServerInstanceCount} \
 ParameterKey=ServerVersion,ParameterValue=${ServerVersion} \
-ParameterKey=ServerUrl,ParameterValue='${ServerUrl}' \
+ParameterKey=ServerUrl,ParameterValue="${ServerUrl}" \
 ParameterKey=ServerDiskSize,ParameterValue=${ServerDiskSize} \
 ParameterKey=SyncGatewayInstanceCount,ParameterValue=${SyncGatewayInstanceCount} \
 ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
 ParameterKey=KeyName,ParameterValue=${KeyName} \
-ParameterKey=SSHCIDR,ParameterValue=${SSHCIDR}"
-echo "$cmd"
-$cmd
+ParameterKey=SSHCIDR,ParameterValue=${SSHCIDR}
