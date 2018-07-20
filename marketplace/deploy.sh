@@ -3,11 +3,18 @@
 STACK_NAME=$1
 
 TEMPLATE_BODY="file://byol.template"
-REGION=`aws configure get region`
+REGION=$2
 
-Username="couchbase"
-Password="foo123!"
-KeyName="couchbase-${REGION}"
+ServerInstanceCount=$3
+ServerVersion=$4
+ServerUrl=$5
+ServerDiskSize="100"
+SyncGatewayInstanceCount="0"
+InstanceType="m4.xlarge"
+Username="Administrator"
+Password="password"
+KeyName="couchbase-qe"
+License="BYOL"
 SSHCIDR="0.0.0.0/0"
 
 aws cloudformation create-stack \
@@ -16,7 +23,14 @@ aws cloudformation create-stack \
 --stack-name ${STACK_NAME} \
 --region ${REGION} \
 --parameters \
+ParameterKey=ServerInstanceCount,ParameterValue=${ServerInstanceCount} \
+ParameterKey=ServerVersion,ParameterValue=${ServerVersion} \
+ParameterKey=ServerUrl,ParameterValue=${ServerUrl} \
+ParameterKey=ServerDiskSize,ParameterValue=${ServerDiskSize} \
+ParameterKey=SyncGatewayInstanceCount,ParameterValue=${SyncGatewayInstanceCount} \
+ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
 ParameterKey=KeyName,ParameterValue=${KeyName} \
+ParameterKey=License,ParameterValue=${License} \
 ParameterKey=SSHCIDR,ParameterValue=${SSHCIDR}

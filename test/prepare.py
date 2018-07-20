@@ -52,7 +52,7 @@ def make_ssh_ready():
     run("sudo service sshd restart")
 
 def make_ips_file():
-    servers = "\",\"".join(ip_list_public)
+    servers = "\",\"".join(ip_list_public_dns)
     servers = "\"" + servers + "\""
     with open("../testrunner/ips.txt", "w") as fp:
         fp.write(servers)

@@ -14,11 +14,11 @@
     },
     "ServerVersion": {
       "Description": "Couchbase Server Version",
-      "Type": "String",
-      "Default": "5.1.1",
-      "AllowedValues": [
-        "5.5.0-beta", "5.1.1", "5.1.0", "5.0.1", "4.6.5"
-      ]
+      "Type": "String"
+    },
+    "ServerUrl": {
+      "Description": "Couchbase Server Url",
+      "Type": "String"
     },
     "SyncGatewayInstanceCount": {
       "Description": "Number of Couchbase Sync Gateway Nodes",
@@ -154,7 +154,7 @@
                 "#######################################################\n",
                 "echo \"Installing Couchbase Server...\"\n",
 
-                "wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm\n",
+                "wget ${url}\n",
                 "rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm\n",
 
                 "#######################################################\n",
