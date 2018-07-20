@@ -11,7 +11,7 @@ SyncGatewayInstanceCount="0"
 InstanceType="m4.xlarge"
 Username="Administrator"
 Password="password"
-KeyName="couchbase-${REGION}"
+KeyName="couchbase-qe"
 License="BYOL"
 
 aws cloudformation create-stack \

@@ -18,8 +18,9 @@ for reservation in reservations:
         tags = instance["Tags"]
         for tag in tags:
             if tag["Key"] == "aws:cloudformation:stack-name" and tag["Value"] == "a-test":
-                ip_list_public.append(instance["PublicIpAddress"])
-                ip_list_private.append(instance["PrivateIpAddress"])
+                if "PublicIpAddress" in instance:
+                    ip_list_public.append(instance["PublicIpAddress"])
+                    ip_list_private.append(instance["PrivateIpAddress"])
 
 print ip_list_public
 print ip_list_private
