@@ -7,7 +7,7 @@ REGION=$2
 
 ServerInstanceCount=$3
 ServerVersion=$4
-ServerUrl="$5"
+ServerUrl=$5
 ServerUsername=$6
 ServerPassword=$7
 ServerDiskSize="100"
@@ -25,7 +25,7 @@ fi
 
 echo $ServerUrl
 
-aws cloudformation create-stack \
+cmd="aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
 --template-body ${TEMPLATE_BODY} \
 --stack-name ${STACK_NAME} \
@@ -33,11 +33,13 @@ aws cloudformation create-stack \
 --parameters \
 ParameterKey=ServerInstanceCount,ParameterValue=${ServerInstanceCount} \
 ParameterKey=ServerVersion,ParameterValue=${ServerVersion} \
-ParameterKey=ServerUrl,ParameterValue=\"${ServerUrl}\" \
+ParameterKey=ServerUrl,ParameterValue='${ServerUrl}' \
 ParameterKey=ServerDiskSize,ParameterValue=${ServerDiskSize} \
 ParameterKey=SyncGatewayInstanceCount,ParameterValue=${SyncGatewayInstanceCount} \
 ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
 ParameterKey=KeyName,ParameterValue=${KeyName} \
-ParameterKey=SSHCIDR,ParameterValue=${SSHCIDR}
+ParameterKey=SSHCIDR,ParameterValue=${SSHCIDR}"
+echo "$cmd"
+$cmd
