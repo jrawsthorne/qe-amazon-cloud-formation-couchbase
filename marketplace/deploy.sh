@@ -2,7 +2,7 @@
 
 STACK_NAME=$1
 
-TEMPLATE_BODY="file://byol.template"
+TEMPLATE_BODY="file://couchbase-byol.template"
 REGION=$2
 
 ServerInstanceCount=$3
