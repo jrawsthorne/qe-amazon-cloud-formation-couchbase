@@ -7,6 +7,7 @@ REGION=$2
 
 ServerInstanceCount=$3
 ServerVersion=$4
+echo $5
 ServerUrl="$5"
 echo ${ServerUrl}
 ServerDiskSize="100"
