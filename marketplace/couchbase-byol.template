@@ -147,6 +147,7 @@
                 "adminUsername=", { "Ref": "Username" }, "\n",
                 "adminPassword=", { "Ref": "Password" }, "\n",
                 "version=", { "Ref": "ServerVersion" }, "\n",
+                "url=", { "Ref": "ServerUrl" }, "\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
 
                 "#######################################################\n",
