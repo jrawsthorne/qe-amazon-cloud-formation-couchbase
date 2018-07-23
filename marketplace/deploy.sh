@@ -15,7 +15,7 @@ SyncGatewayInstanceCount="0"
 InstanceType="m4.xlarge"
 Username="Administrator"
 Password="password"
-KeyName="couchbase-qe"
+KeyName=$8
 SSHCIDR="0.0.0.0/0"
 
 if [ "$ServerUsername" != "" ]
