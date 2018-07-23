@@ -7,15 +7,15 @@ REGION=$2
 
 ServerInstanceCount=$3
 ServerVersion=$4
-ServerUrl=$5
-ServerUsername=$6
-ServerPassword=$7
+ServerUrl=$6
+ServerUsername=$7
+ServerPassword=$8
 ServerDiskSize="100"
 SyncGatewayInstanceCount="0"
 InstanceType="m4.xlarge"
 Username="Administrator"
 Password="password"
-KeyName=$8
+KeyName=$5
 SSHCIDR="0.0.0.0/0"
 
 if [ "$ServerUsername" != "" ]
