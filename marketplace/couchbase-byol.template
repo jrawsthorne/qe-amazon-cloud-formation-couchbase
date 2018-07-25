@@ -20,6 +20,16 @@
       "Description": "Couchbase Server Url",
       "Type": "String"
     },
+    "ServerUser": {
+      "Description": "Couchbase Server Url username",
+      "Type": "String",
+      "Default": ""
+    },
+    "ServerPassword": {
+      "Description": "Couchbase Server Url password",
+      "Type": "String",
+      "Default": ""
+    },
     "SyncGatewayInstanceCount": {
       "Description": "Number of Couchbase Sync Gateway Nodes",
       "Type": "Number",
@@ -148,14 +158,20 @@
                 "adminPassword=", { "Ref": "Password" }, "\n",
                 "version=", { "Ref": "ServerVersion" }, "\n",
                 "url=", { "Ref": "ServerUrl" }, "\n",
+                "username=", { "Ref": "ServerUser" }, "\n",
+                "password=", { "Ref": "ServerPassword" }, "\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
 
                 "#######################################################\n",
                 "############## Install Couchbase Server ###############\n",
                 "#######################################################\n",
                 "echo \"Installing Couchbase Server...\"\n",
-
-                "wget ${url}\n",
+                "echo ${url} > /tmp/vars\n",
+                "echo ${username} >> /tmp/vars\n",
+                "echo ${password} >> /tmp/vars\n",
+                "[ $username ] && { echo wget ${url} --user=${username} --password=${password} > /tmp/run; } || { echo wget ${url} > /tmp/run; } \n",
+                "chmod 777 /tmp/run \n",
+                "bash /tmp/run > /tmp/output\n",
                 "rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm\n",
 
                 "#######################################################\n",

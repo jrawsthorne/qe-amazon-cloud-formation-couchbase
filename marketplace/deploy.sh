@@ -18,11 +18,6 @@ Password="password"
 KeyName=$5
 SSHCIDR="0.0.0.0/0"
 
-if [ "$ServerUsername" != "" ]
-then
-ServerUrl="$ServerUrl --user=$ServerUsername --password=$ServerPassword"
-fi
-
 echo $ServerUrl
 
 aws cloudformation create-stack \
@@ -33,7 +28,9 @@ aws cloudformation create-stack \
 --parameters \
 ParameterKey=ServerInstanceCount,ParameterValue=${ServerInstanceCount} \
 ParameterKey=ServerVersion,ParameterValue=${ServerVersion} \
-ParameterKey=ServerUrl,ParameterValue="${ServerUrl}" \
+ParameterKey=ServerUrl,ParameterValue=${ServerUrl} \
+ParameterKey=ServerUser,ParameterValue=${ServerUsername} \
+ParameterKey=ServerPassword,ParameterValue=${ServerPassword} \
 ParameterKey=ServerDiskSize,ParameterValue=${ServerDiskSize} \
 ParameterKey=SyncGatewayInstanceCount,ParameterValue=${SyncGatewayInstanceCount} \
 ParameterKey=InstanceType,ParameterValue=${InstanceType} \
