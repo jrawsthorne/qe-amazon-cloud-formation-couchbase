@@ -15,10 +15,6 @@
     "ServerVersion": {
       "Description": "Couchbase Server Version",
       "Type": "String"
-      "Default": "5.5.0",
-      "AllowedValues": [
-        "5.5.0", "5.1.1", "5.1.0", "5.0.1", "4.6.5"
-      ]
     },
     "ServerUrl": {
       "Description": "Couchbase Server Url",
