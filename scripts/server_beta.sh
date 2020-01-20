@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Running server.sh"
+echo "Running server_beta.sh"
 
 adminUsername=$1
 adminPassword=$2
@@ -20,8 +20,10 @@ echo version \'$version\'
 #######################################################"
 echo "Installing Couchbase Server..."
 
-wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-amzn2.x86_64.rpm
-rpm --install couchbase-server-enterprise-${version}-amzn2.x86_64.rpm
+wget https://tassttedftestmad.s3-us-west-2.amazonaws.com/couchbase-server-enterprise-6.5.0-4960-amzn2.x86_64.rpm
+#wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
+#rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
+rpm --install couchbase-server-enterprise-6.5.0-4960-amzn2.x86_64.rpm
 
 source utilAmzLnx2.sh
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 STACK_NAME=$1
-
 TEMPLATE_BODY="file://couchbase-byol.template"
 REGION=$2
 

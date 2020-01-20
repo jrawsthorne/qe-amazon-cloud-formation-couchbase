@@ -43,7 +43,7 @@ def main():
     template['Resources'] = dict(
         list(template['Resources'].items()) + list(generateCluster(serverVersion, syncGatewayVersion, cluster).items()))
 
-    file = open('generated.template', 'w')
+    file = open('generated_beta.template', 'w')
     file.write(json.dumps(template, sort_keys=True, indent=4, separators=(',', ': ')) + '\n')
     file.close()
 
@@ -242,6 +242,7 @@ def generateMiscResources():
 def generateCluster(serverVersion, syncGatewayVersion, cluster):
     resources = {}
 
+
     rallyAutoScalingGroup = cluster[0]['group']
     for group in cluster:
         groupResources = generateGroup(serverVersion, syncGatewayVersion, group, rallyAutoScalingGroup)
@@ -251,6 +252,7 @@ def generateCluster(serverVersion, syncGatewayVersion, cluster):
 
 def generateGroup(serverVersion, syncGatewayVersion, group, rallyAutoScalingGroup):
     resources = {}
+
 
     license = group['license']
     if 'syncGateway' in group['services']:
@@ -339,18 +341,18 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
         "stackName=", {"Ref": "AWS::StackName"}, "\n",
         "serverVersion=" + serverVersion + "\n",
         "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/6.5Test/scripts/\n",
-        "wget ${baseURL}server.sh\n",
+        "wget ${baseURL}server_beta.sh\n",
         "wget ${baseURL}utilAmzLnx2.sh\n",
         "chmod +x *.sh\n",
     ]
     if groupName == rallyAutoScalingGroup:
-        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n")
+        command.append("./server_beta.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n")
     else:
         command.append("rallyAutoScalingGroup=")
         command.append({"Ref": rallyAutoScalingGroup + "AutoScalingGroup"})
         command.append("\n")
         command.append(
-            "./server.sh " +
+            "./server_beta.sh " +
             "${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion} ${rallyAutoScalingGroup}\n")
 
     resources = {

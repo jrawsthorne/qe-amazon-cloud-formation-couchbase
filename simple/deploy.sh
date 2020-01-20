@@ -14,6 +14,8 @@ Password="password"
 KeyName="couchbase-qe"
 License="BYOL"
 
+LicenseSelect=BYOL6 #BYOL or HourlyPricing for lower than server 6.0.0.  For greater than 6.0.0 or to use Amazon Linux 2 BYOL6 or HourlyPricing6
+
 aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
 --template-body ${TEMPLATE_BODY} \
@@ -27,4 +29,4 @@ ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
 ParameterKey=KeyName,ParameterValue=${KeyName} \
-ParameterKey=License,ParameterValue=${License}
+ParameterKey=License,ParameterValue=${LicenseSelect}

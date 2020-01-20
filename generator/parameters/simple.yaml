@@ -1,10 +1,10 @@
-serverVersion: 5.5.0
-syncGatewayVersion: 2.0.0
+serverVersion: 6.5.0
+syncGatewayVersion: 2.6.0
 cluster:
   - group: group1
     license: HourlyPricing
-    nodeCount: 5
-    nodeType: m4.4xlarge
+    nodeCount: 3
+    nodeType: m5.xlarge
     dataDiskSize: 100
     services:
       - data
@@ -13,3 +13,10 @@ cluster:
       - fts
       - analytics
       - eventing
+  - group: syncgateway
+    license: BYOL
+    nodeCount: 0
+    nodeType: m5.large
+    services:
+      - syncGateway
+
