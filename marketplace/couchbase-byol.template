@@ -12,38 +12,6 @@
       "Type": "Number",
       "Default": 100
     },
-    "ServerVersion": {
-      "Description": "Couchbase Server Version",
-      "Type": "String"
-    },
-    "ServerUrl": {
-      "Description": "Couchbase Server Url",
-      "Type": "String"
-    },
-    "ServerUser": {
-      "Description": "Couchbase Server Url username",
-      "Type": "String",
-      "Default": ""
-    },
-    "ServerPassword": {
-      "Description": "Couchbase Server Url password",
-      "Type": "String",
-      "Default": ""
-    },
-    "SyncGatewayInstanceCount": {
-      "Description": "Number of Couchbase Sync Gateway Nodes",
-      "Type": "Number",
-      "Default": 2
-    },
-    "SyncGatewayVersion": {
-      "Description": "Couchbase Sync Gateway Version",
-      "Type": "String",
-      "Default": "2.1.0",
-      "AllowedValues": [
-        "2.1.0",
-        "2.0.0"
-      ]
-    },
     "InstanceType": {
       "Description": "Instance type for Couchbase Nodes",
       "Type": "String",
@@ -54,15 +22,6 @@
         "r4.large", "r4.xlarge", "r4.2xlarge", "r4.4xlarge", "r4.8xlarge", "r4.16xlarge",
         "i3.large", "i3.xlarge", "i3.2xlarge", "i3.4xlarge", "i3.8xlarge", "i3.16xlarge"
       ]
-    },
-    "Username": {
-      "Description": "Username for Couchbase administrator",
-      "Type": "String"
-    },
-    "Password": {
-      "Description": "Password for Couchbase administrator",
-      "Type": "String",
-      "NoEcho": true
     },
     "KeyName": {
       "Description": "Name of an existing EC2 KeyPair",
@@ -94,23 +53,6 @@
       "ap-northeast-2": { "HourlyPricing": "ami-8f8b3ce1", "BYOL": "ami-b9893ed7" },
       "ap-south-1": { "HourlyPricing": "ami-4e8fbc21", "BYOL": "ami-658bb80a" },
       "sa-east-1": { "HourlyPricing": "ami-4151702d", "BYOL": "ami-3e290852" }
-    },
-    "CouchbaseSyncGateway": {
-      "us-east-1": { "HourlyPricing": "ami-2ce5e653", "BYOL": "ami-f6e3e089" },
-      "us-east-2": { "HourlyPricing": "ami-bf251fda", "BYOL": "ami-10271d75" },
-      "us-west-1": { "HourlyPricing": "ami-cbd13ca8", "BYOL": "ami-f4d13c97" },
-      "us-west-2": { "HourlyPricing": "ami-ddcc92a5", "BYOL": "ami-dfcc92a7" },
-      "ca-central-1": { "HourlyPricing": "ami-adaa27c9", "BYOL": "ami-13aa2777" },
-      "eu-central-1": { "HourlyPricing": "ami-3e7f7cd5", "BYOL": "ami-7e070495" },
-      "eu-west-1": { "HourlyPricing": "ami-8a170c60", "BYOL": "ami-836a7169" },
-      "eu-west-2": { "HourlyPricing": "ami-d3eb01b4", "BYOL": "ami-49ea002e" },
-      "eu-west-3": { "HourlyPricing": "ami-9f8d3de2", "BYOL": "ami-9e8d3de3" },
-      "ap-southeast-1": { "HourlyPricing": "ami-0a783fe0", "BYOL": "ami-be7a3d54" },
-      "ap-southeast-2": { "HourlyPricing": "ami-49288f2b", "BYOL": "ami-5833943a" },
-      "ap-northeast-1": { "HourlyPricing": "ami-410b7eac", "BYOL": "ami-0b0174e6" },
-      "ap-northeast-2": { "HourlyPricing": "ami-37823559", "BYOL": "ami-ca8631a4" },
-      "ap-south-1": { "HourlyPricing": "ami-4174462e", "BYOL": "ami-628bb80d" },
-      "sa-east-1": { "HourlyPricing": "ami-457a5b29", "BYOL": "ami-14577678" }
     }
   },
   "Resources": {
@@ -148,87 +90,6 @@
             }
           }
         ]
-      }
-    },
-    "SyncGatewayAutoScalingGroup": {
-      "Type": "AWS::AutoScaling::AutoScalingGroup",
-      "Properties": {
-        "AvailabilityZones": { "Fn::GetAZs": "" },
-        "LaunchConfigurationName": { "Ref": "SyncGatewayLaunchConfiguration" },
-        "MinSize": 0,
-        "MaxSize": 100,
-        "DesiredCapacity": { "Ref": "SyncGatewayInstanceCount" }
-      }
-    },
-    "SyncGatewayLaunchConfiguration": {
-      "Type": "AWS::AutoScaling::LaunchConfiguration",
-      "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, "BYOL" ] },
-        "InstanceType": { "Ref": "InstanceType" },
-        "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
-        "KeyName": { "Ref": "KeyName" },
-        "EbsOptimized": true,
-        "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
-        "BlockDeviceMappings":
-        [
-          {
-            "DeviceName" : "/dev/xvda",
-            "Ebs" : { "DeleteOnTermination" : true }
-          }
-        ],
-        "UserData": {
-          "Fn::Base64": {
-            "Fn::Join": [ "",
-              [
-                "#!/bin/bash\n",
-                "echo 'Running startup script...'\n",
-                "version=", { "Ref": "SyncGatewayVersion" }, "\n",
-                "stackName=", { "Ref": "AWS::StackName" }, "\n",
-
-                "echo \"Installing Couchbase Sync Gateway...\"\n",
-                "wget https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-enterprise_${version}_x86_64.rpm\n",
-                "rpm --install couchbase-sync-gateway-enterprise_${version}_x86_64.rpm\n",
-
-                "yum -y update\n",
-                "yum -y install jq\n",
-
-                "region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \\\n",
-                "  | jq '.region'  \\\n",
-                "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
-
-                "instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \\\n",
-                "  | jq '.instanceId' \\\n",
-                "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
-
-                "echo \"Using the settings:\"\n",
-                "echo stackName \\'$stackName\\'\n",
-                "echo region \\'$region\\'\n",
-                "echo instanceID \\'$instanceID\\'\n",
-
-                "aws ec2 create-tags \\\n",
-                "  --region ${region} \\\n",
-                "  --resources ${instanceID} \\\n",
-                "  --tags Key=Name,Value=${stackName}-SyncGateway\n",
-
-                "file=\"/opt/sync_gateway/etc/sync_gateway.json\"\n",
-                "echo '\n",
-                "{\n",
-                "  \"interface\": \"0.0.0.0:4984\",\n",
-                "  \"adminInterface\": \"0.0.0.0:4985\",\n",
-                "  \"log\": [\"*\"]\n",
-                "}\n",
-                "' > ${file}\n",
-                "chmod 755 ${file}\n",
-                "chown sync_gateway ${file}\n",
-                "chgrp sync_gateway ${file}\n",
-
-                "# Need to restart to load the changes\n",
-                "service sync_gateway stop\n",
-                "service sync_gateway start\n"
-              ]
-            ]
-          }
-        }
       }
     },
     "CouchbaseInstanceProfile": {
