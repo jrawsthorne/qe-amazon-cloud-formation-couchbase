@@ -10,6 +10,7 @@ ServerDiskSize="100"
 InstanceType="m4.xlarge"
 KeyName=$4
 SSHCIDR="0.0.0.0/0"
+ImageID=$5
 
 echo $ServerUrl
 
@@ -23,4 +24,5 @@ ParameterKey=ServerInstanceCount,ParameterValue=${ServerInstanceCount} \
 ParameterKey=ServerDiskSize,ParameterValue=${ServerDiskSize} \
 ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=KeyName,ParameterValue=${KeyName} \
-ParameterKey=SSHCIDR,ParameterValue=${SSHCIDR}
+ParameterKey=SSHCIDR,ParameterValue=${SSHCIDR} \
+ParameterKey=ImageID,ParameterValue=${ImageID}

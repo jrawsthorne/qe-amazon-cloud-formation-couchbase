@@ -34,25 +34,11 @@
       "MaxLength": 18,
       "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
       "ConstraintDescription": "must be a valid CIDR range of the form x.x.x.x/x."
-    }
-  },
-  "Mappings": {
-    "CouchbaseServer": {
-      "us-east-1": { "HourlyPricing": "ami-49e7e436", "BYOL": "ami-40dcdf3f" },
-      "us-east-2": { "HourlyPricing": "ami-17271d72", "BYOL": "ami-99271dfc" },
-      "us-west-1": { "HourlyPricing": "ami-edd03d8e", "BYOL": "ami-f5d13c96" },
-      "us-west-2": { "HourlyPricing": "ami-53ce902b", "BYOL": "ami-70ca9408" },
-      "ca-central-1": { "HourlyPricing": "ami-acaa27c8", "BYOL": "ami-92911cf6" },
-      "eu-central-1": { "HourlyPricing": "ami-3c7f7cd7", "BYOL": "ami-310201da" },
-      "eu-west-1": { "HourlyPricing": "ami-3c7f64d6", "BYOL": "ami-3a7f64d0" },
-      "eu-west-2": { "HourlyPricing": "ami-48ea002f", "BYOL": "ami-69ed070e" },
-      "eu-west-3": { "HourlyPricing": "ami-718f3f0c", "BYOL": "ami-9d8d3de0"},
-      "ap-southeast-1": { "HourlyPricing": "ami-ce7b3c24", "BYOL": "ami-8f85c265"},
-      "ap-southeast-2": { "HourlyPricing": "ami-cb298ea9", "BYOL": "ami-953394f7"},
-      "ap-northeast-1": { "HourlyPricing": "ami-0f1f6ae2", "BYOL": "ami-220376cf" },
-      "ap-northeast-2": { "HourlyPricing": "ami-8f8b3ce1", "BYOL": "ami-b9893ed7" },
-      "ap-south-1": { "HourlyPricing": "ami-4e8fbc21", "BYOL": "ami-658bb80a" },
-      "sa-east-1": { "HourlyPricing": "ami-4151702d", "BYOL": "ami-3e290852" }
+    },
+    "ImageID": {
+      "Description": "Image ID",
+      "Type": "String",
+      "Default": "ami-70ca9408"
     }
   },
   "Resources": {
@@ -69,7 +55,7 @@
     "ServerLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, "BYOL" ] },
+        "ImageId": { "Ref": "ImageID" },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
