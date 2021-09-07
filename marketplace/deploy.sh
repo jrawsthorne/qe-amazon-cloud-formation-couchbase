@@ -7,7 +7,7 @@ REGION=$2
 
 ServerInstanceCount=$3
 ServerDiskSize="100"
-InstanceType="m4.xlarge"
+InstanceType=$6
 KeyName=$4
 SSHCIDR="0.0.0.0/0"
 ImageID=$5
